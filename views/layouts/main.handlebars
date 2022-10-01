@@ -16,10 +16,36 @@
 	<script src="https://code.jquery.com/jquery.js"></script>
     <link rel="stylesheet" href="/css/style.css">
     <title>Tech Tech Blog Model</title>
-
 </head>
 
 <body>
+    <header>
+      <h1>
+        <a href="/" class="HEAD">Tech Tech Blog Model</a>
+      </h1>
+      <div class="collapse navbar-collapse" id="navbar">
+                <ul class="navbar-nav">
+                    <nav>
+
+                        {{#if loggedIn}}
+
+                        <a href="/dashboard" class="nav-link text-white">Dashboard</a>
+                        <button id="logout" class="btn text-white">Logout</button>
+
+                        {{else}}
+
+                        <a href="/login" class="nav-link text-white">Log in</a>
+
+                        {{/if}}
+                    </nav>
+                </ul>
+            </div>
+    </header>
+  
+<main>
+  {{{ body }}}
+</main>
+
 
 </body>
 </html>
