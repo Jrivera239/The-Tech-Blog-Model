@@ -6,11 +6,11 @@ current_date: date => {
 
 current_url: url => {
     return url
+    .replace('www.', '')
     .replace('http://', '')
     .replace('https://', '')
-    .replace('www.', '')
-    .split('/')[0]
-    .split('?')[0];
+    .split('?')[0]
+    .split('/')[0];
     },
 
     curent_word: (word, amount) => {

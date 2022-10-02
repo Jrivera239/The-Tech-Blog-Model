@@ -19,34 +19,30 @@
 </head>
 
 <body>
-    <header>
-      <h1>
-        <a href="/" class="HEAD">Tech Tech Blog Model</a>
-      </h1>
+<header>
+    <h1><a href="/" class="HEAD">Tech Tech Blog Model</a></h1>
       <div class="collapse navbar-collapse" id="navbar">
-                <ul class="navbar-nav">
-                    <nav>
+        <ul class="navbar-nav">
+        <nav>
 
-                        {{#if loggedIn}}
+        {{#if loggedIn}}
 
-                        <a href="/dashboard" class="nav-link text-white">Dashboard</a>
-                        <button id="logout" class="btn text-white">Logout</button>
+        <a href="/dashboard" class="nav-link text-white">Dashboard</a>
+        <button id="logout" class="btn text-white">Logout</button>
 
-                        {{else}}
+        {{else}}
 
-                        <a href="/login" class="nav-link text-white">Log in</a>
+        <a href="/login" class="nav-link text-white">Log in</a>
 
-                        {{/if}}
-                    </nav>
-                </ul>
-            </div>
-    </header>
-  
+        {{/if}}
+
+    </nav>
+    </ul>
+    </div>
+</header>
 <main>
   {{{ body }}}
 </main>
-
-
 </body>
 </html>
 
