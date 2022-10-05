@@ -9,16 +9,16 @@ const PORT = process.env.PORT || 3001;
 const sequelize = require('./config/connection');
 const SequelizeStore = require ("connect-session-sequelize")(session.Store);
 
-const section = {
-    secret: 'super secret secret', 
+const sess = {
+    secret: 'process.env.db',  //tbd//
     cookie: {},
     resave: false,
     saveUninitialized: true,
     store: new SequelizeStore
     ({db: sequelize})
 };
-app.use (session(section));
-const formatDate = require("utils/helpers");
+app.use (session(sess));
+const formatDate = require("utils/formatDate");
 const handlebars = expressHandlebars.create({formatDate}
 );
 
