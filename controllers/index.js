@@ -1,10 +1,15 @@
-const router = require('express').Router();
-const apiRoutes = require('./api/');
-const homeRoutes = require('./home-routes');
-const dashboardRoutes = require('./dashboard-routes');
+const router = require("express").Router();
+const apiRoutes = require("./apiRoute");
+const homeRoutes = require("./homePageRoutes");
+const profileRoutes = require("./profileRoute");
+//now api routes use this
+router.use("/", homeRoutes);
+router.use("/profile", profileRoutes);
+router.use("/api", apiRoutes);
 
-router.use('/', homeRoutes);
-router.use('/api', apiRoutes);
-router.use('/dashboard', dashboardRoutes);
+// important for RESTful API practice
+router.use((req, res) => {
+  res.status(404).end();
+});
 
 module.exports = router;
