@@ -18,9 +18,8 @@ const sess = {
     ({db: sequelize})
 };
 app.use (session(sess));
-const formatDate = require("utils/formatDate");
-const handlebars = expressHandlebars.create({formatDate}
-);
+const formatDate = require("./utils/formatDate");
+const handlebars = expressHandlebars.create({ formatDate });
 
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');

@@ -1,3 +1,3 @@
-const Post = require('./Post');
+const Post = require('./Posts');
 const Accounts = require('./Accounts');
-const Comment = require('./Comment');
+const Comment = require('./Comments');
