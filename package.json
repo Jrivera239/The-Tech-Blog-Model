@@ -1,12 +1,35 @@
 {
-    "dependencies": {
-      "bcrypt": "^5.0.1",
-      "connect-session-sequelize": "^7.1.5",
-      "dotenv": "^16.0.2",
-      "express": "^4.18.1",
-      "express-handlebars": "^6.0.6",
-      "express-session": "^1.17.3",
-      "mysql2": "^2.3.3",
-      "sequelize": "^6.21.6"
-    }
-  }
+  "scripts": {
+    "start": "node server.js",
+    "seeds": "node seeds"
+  },
+  "name": "new-folder",
+  "description": "",
+  "version": "1.0.0",
+  "main": "server.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jrivera239/The-Tech-Bog-Model.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "bootstrap": "^5.2.1",
+    "connect-session-sequelize": "^7.1.5",
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "express-handlebars": "^6.0.6",
+    "express-session": "^1.17.3",
+    "install": "^0.13.0",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.21.6",
+    "validator": "^13.7.0"
+  },
+  "bugs": {
+    "url": "https://github.com/Jrivera239/The-Tech-Bog-Model/issues"
+  },
+  "homepage": "https://github.com/Jrivera239/The-Tech-Bog-Model#readme"
+}
