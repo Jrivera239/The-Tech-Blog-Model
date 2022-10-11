@@ -23,7 +23,8 @@ async function commentForm(event) {
       if (response.ok) {
         console.log(response);
         document.location.reload();
-      } else {
+      } else 
+      {
         alert(response.statusText);
       }
     }

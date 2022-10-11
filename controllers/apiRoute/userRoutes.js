@@ -11,7 +11,8 @@ router.get('/', (req, res) => {
             console.log(err);
             res.status(500).json(err);
         });
-});
+}
+);
 
 
 router.get('/:id', (req, res) => {
@@ -46,7 +47,8 @@ router.get('/:id', (req, res) => {
             console.log(err);
             res.status(500).json(err);
         });
-});
+}
+);
 
 
 router.post('/', (req, res) => {
@@ -68,7 +70,8 @@ router.post('/', (req, res) => {
             console.log(err);
             res.status(500).json(err);
         });
-});
+}
+);
 
 //login route //
 
@@ -96,8 +99,10 @@ router.post('/login', (req, res) => {
             req.session.loggedIn = true;
 
             res.json({ user: dbUserData, message: 'Logged in' });
-        });
-    });
+        }
+        );
+    }
+    );
 });
 
 //route logout// 
@@ -106,43 +111,46 @@ router.post('/logout', (req, res) => {
     if (req.session.loggedIn) {
         req.session.destroy(() => {
             res.status(204).end();
-        });
+        }
+        );
     }
     else {
         res.status(404).end();
     }
-});
+}
+);
 
-//update user// 
+//update user id // 
 
 router.put('/:id', (req, res) => {
     User.update(req.body, {
         individualHooks: true,
         where: {
             id: req.params.id 
-        }
-    })
+        }})
         .then(dbUserData => {
             if (!dbUserData) {
                 res.status(404).json({ message: 'Nothing could be found with this search' });
                 return;
             }
             res.json(dbUserData);
-        })
+        }
+        )
         .catch(err => {
             console.log(err);
             res.status(500).json(err);
-        });
-});
+        }
+        );
+}
+);
 
-//delete user// 
+//delete user id // 
 
 router.delete('/:id', (req, res) => {
     User.destroy({
         where: {
             id: req.params.id 
-        }
-    })
+        }})
         .then(dbUserData => {
             if (!dbUserData) {
                 res.status(404).json({ message: 'Nothing could be found with this search' });
@@ -153,7 +161,9 @@ router.delete('/:id', (req, res) => {
         .catch(err => {
             console.log(err);
             res.status(500).json(err);
-        });
-});
+        }
+        );
+}
+);
 
 module.exports = router;

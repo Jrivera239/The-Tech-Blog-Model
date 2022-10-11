@@ -6,21 +6,24 @@ async function addPost(event) {
       .querySelector('input[name="post_text"]')
       .value.trim();
   
-    const response = await fetch(`/api/posts`, {
+    const response = await fetch(`/api/post`, {
       method: "POST",
       body: JSON.stringify({
         title,
         post_text,
-      }),
+      }
+      ),
       headers: {
         "Content-Type": "application/json",
       },
-    });
+    }
+    );
   
     if (response.ok) {
       console.log(response);
       document.location.reload();
-    } else {
+    } else 
+    {
       alert(response.statusText);
     }
   }
