@@ -16,23 +16,24 @@
     <div class="wrapper">
         <header class="navbar navbar-black navbar-expand-sm bg-black  mb-4">
             <h1>
-                <a href="/" class="navbar-brand"> Tech Blog</a>
+                <a href="/" class="navbar-brand">The Tech Blog Model</a>
             </h1>
             <!-- Collapse button -->
-            <button class="navbar-toggler toggler-example purple darken-3" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent41" aria-controls="navbarSupportedContent41" aria-expanded="false"
-            aria-label="Toggle navigation"><span class="white-text"><i class="fas fa-bars fa-1x"></i></span></button>
+            <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation"></button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent41">
-                <ul class="navbar-nav mr-auto">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
                     <nav>
                         {{#if loggedIn}}
+                        
                         <a href="/dashboard" class="nav-link text-white">Dashboard</a>
                         <button id="logout" class="btn text-white">Logout</button>
 
                         {{else}}
 
-                        <a href="/login" class="nav-link text-white">Sign Up or Login</a>
+                        <a href="/login" class="nav-link text-white">Log in</a>
 
                         {{/if}}
                     <hr>            
