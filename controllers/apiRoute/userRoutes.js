@@ -1,65 +1,159 @@
-const router = require("express").Router();
-const sequelize = require("../config/connection");
-const { Post, User, Comment } = require("../models");
+const router = require('express').Router();
+const { User, Post, Comment} = require('../../models');
 
-router.get("/", (req, res) => {
-  Post.findAll({
-    attributes: ["id", "title", "post_text", "created_at"],
-    include: [
-      {
-        model: Comment,
-        attributes: ["id", "comment_text", "post_id", "user_id", "created_at"],
-        include: {
-          model: User,
-          attributes: ["username"],
-        },
-      },
-    ],
-  }).then((postData) => {
-    console.log(postData[2]);
-    const post = postData.map((post) => post.get({ plain: true }));
-    res.render("originalPage", { post });
-  });
+// returns all users //
+router.get('/', (req, res) => {
+    User.findAll({
+        attributes: { exclude: ['password'] 
+      }})
+        .then(dbUserData => res.json(dbUserData))
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
 });
 
-router.get("/post/:id", (req, res) => {
-  Post.findOne({
-    where: {
-      id: req.params.id,
-    },
-    attributes: ["id", "title", "post_text", "created_at"],
-    include: [
-      {
-        model: Comment,
-        attributes: ["id", "comment_text", "post_id", "user_id", "created_at"],
-        include: {
-          model: User,
-          attributes: ["username"],
-        },
-      },
-    ],
-  })
-    .then((postData) => {
-      if (!postData) {
-        res.status(404).json({ message: "No post found" });
-        return;
-      }
-      const post = postData.get({ plain: true });
 
-      res.render("feedback", { post, loggedIn: req.session.loggedIn });
+router.get('/:id', (req, res) => {
+    User.findOne({
+        attributes: { exclude: ['password'] },
+        where: {
+            id: req.params.id 
+        },
+        include: [
+            {
+                model: Post,
+                attributes: ['id', 'title', 'created_at', 'post_url']
+            },
+            {
+                model: Comment,
+                attributes: ['id', 'created_at', 'comment_text'],
+                include: {
+                    model: Post, 
+                    attributes: ['title']
+                }
+            },
+        ]
     })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json(err);
+        .then(dbUserData => {
+            if (!dbUserData) {
+                res.status(404).json({ message: 'Nothing could be found with this search'});
+                return;
+            }
+            res.json(dbUserData);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
+});
+
+
+router.post('/', (req, res) => {
+    User.create({
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password 
+    })
+        .then(dbUserData => {
+            req.session.save(() => {
+                req.session.user_id = dbUserData.id;
+                req.session.username = dbUserData.username;
+                req.session.loggedIn = true;
+
+                res.json(dbUserData);
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
+});
+
+//login route //
+
+router.post('/login', (req, res) => {
+    User.findOne({
+        where: {
+            email: req.body.email 
+        }
+    }).then(dbUserData => {
+        if (!dbUserData) {
+            res.status(400).json({ message: 'Welcoe to The Tech Blog Model'});
+            return;
+        }
+
+        const validPassword = dbUserData.checkPassword(req.body.password);
+
+        if (!validPassword) {
+            res.status(400).json({ message: 'Try again' });
+            return;
+        }
+
+        req.session.save(() => {
+            req.session.user_id = dbUserData.id;
+            req.session.username = dbUserData.username;
+            req.session.loggedIn = true;
+
+            res.json({ user: dbUserData, message: 'Logged in' });
+        });
     });
 });
 
-router.get("/registration", (req, res) => {
-  if (req.session.loggedIn) {
-    res.redirect("profile");
-    return;
-  }
-  res.render("registration");
+//route logout// 
+
+router.post('/logout', (req, res) => {
+    if (req.session.loggedIn) {
+        req.session.destroy(() => {
+            res.status(204).end();
+        });
+    }
+    else {
+        res.status(404).end();
+    }
+});
+
+//update user// 
+
+router.put('/:id', (req, res) => {
+    User.update(req.body, {
+        individualHooks: true,
+        where: {
+            id: req.params.id 
+        }
+    })
+        .then(dbUserData => {
+            if (!dbUserData) {
+                res.status(404).json({ message: 'Nothing could be found with this search' });
+                return;
+            }
+            res.json(dbUserData);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
+});
+
+//delete user// 
+
+router.delete('/:id', (req, res) => {
+    User.destroy({
+        where: {
+            id: req.params.id 
+        }
+    })
+        .then(dbUserData => {
+            if (!dbUserData) {
+                res.status(404).json({ message: 'Nothing could be found with this search' });
+                return;
+            }
+            res.json(dbUserData);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
 });
 
 module.exports = router;
