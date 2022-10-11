@@ -1,14 +1,9 @@
-<div>
-    <ol class="postList">
-        {{#each post }}
-        <li>
-          <article class="post">
-           <h2 ><a href="/post/{{id}}">{{title}}</a></h2>
-           <p class="homeText">{{posts_text}}</p>
-          </article>
-        </li>
-        {{/each}}
-    </ol>
-</div>
+<ol class="post-list">
 
-    <script src="/js/logout.js"></script>
+    {{#each posts as |post|}}
+    <li>
+        {{> post-info post }}
+    </li>
+    {{/each}}
+    
+</ol>
