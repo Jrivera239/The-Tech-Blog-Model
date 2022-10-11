@@ -2,7 +2,9 @@ const User = require("./User");
 const Post = require("./Post");
 const Comment = require("./Comment");
 
-//All the relationships between data are described  here
+//All the relationships between data are described  here //
+
+
 User.hasMany(Post, {
   foreignKey: "user_id",
 });

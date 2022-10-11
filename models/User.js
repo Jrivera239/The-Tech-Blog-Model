@@ -3,9 +3,9 @@ const sequelize = require("../config/connection");
 const bcrypt = require("bcrypt");
 
 
-//This class, Comment, and Post classes will convey what the data consists of
+// This class, Comment, and Post classes will convey what the data consists of //
 class User extends Model {
-  //compares password they typed into to password associated with their account.
+  // compares password they typed into to password associated with their account //
   verifyPassword(loginPw) {
     return bcrypt.compareSync(loginPw, this.password);
   }
@@ -29,7 +29,7 @@ User.init(
         isEmail: true,
       },
     },
-    //password length must be at least 6 char
+    // password length must be at least 6 char //
     password: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -39,11 +39,11 @@ User.init(
     },
   },
   {
-    //hashes password before creating and updating it
+    //hashes password before creating and updating it //
     hooks: {
       async beforeCreate(userData) {
 
-        userData.password = await bcrypt.hash(userData.password, 10);
+        userData.password = await bcrypt.hash(userData.password, 8);
 
         return userData;
       },
@@ -51,7 +51,7 @@ User.init(
       async beforeUpdate(updateUserData) {
         updateUserData.password = await bcrypt.hash(
           updateUserData.password,
-          10
+          8
         );
         return updateUserData;
       },
