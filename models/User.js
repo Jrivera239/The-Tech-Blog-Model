@@ -29,7 +29,7 @@ User.init(
         isEmail: true,
       },
     },
-    // password length must be at least 6 char //
+    // password length must be at least 6 chararcters //
     password: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -43,7 +43,7 @@ User.init(
     hooks: {
       async beforeCreate(userData) {
 
-        userData.password = await bcrypt.hash(userData.password, 8);
+        userData.password = await bcrypt.hash(userData.password, 6);
 
         return userData;
       },
@@ -51,11 +51,12 @@ User.init(
       async beforeUpdate(updateUserData) {
         updateUserData.password = await bcrypt.hash(
           updateUserData.password,
-          8
+          6
         );
         return updateUserData;
       },
     },
+    // pass into imported sequelize connection //
     sequelize,
     timestamps: false,
     freezeTableName: true,
