@@ -23,7 +23,7 @@ const sess = {
 
 app.use(session(sess));
 
-const formatDate = require('./utils/currentDate');
+const formatDate = require('./utils/helpers');
 
 const hbs = exphbs.create({ formatDate });
 
@@ -40,7 +40,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 //Use all routes in controller folder //
-app.use(routes);
 app.use(require('./controllers/'));
 // Start server after DB connection //
 
