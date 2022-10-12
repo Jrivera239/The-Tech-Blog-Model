@@ -1,13 +1,8 @@
-
-async function signupForm(event) {
-    event.preventDefault();
+async function signupForm(event) {event.preventDefault();
     const username = document.querySelector("#usernameSign").value.trim();
     const email = document.querySelector("#emailSign").value.trim();
     const password = document.querySelector("#passwordSign").value.trim();
-    //good to add conditionals on client side POST. It assists with security.
-  
     
-  
     if (username && email && password) {
       const response = await fetch("/api/users", {
         method: "post",
@@ -20,7 +15,7 @@ async function signupForm(event) {
       });
       if (response.ok) {
         console.log("Success!");
-        document.location.replace("profile");
+        document.location.replace("/dashboard/");
       } else {
         alert(response.statusText);
       }
@@ -43,8 +38,7 @@ async function signupForm(event) {
         headers: { "Content-Type": "application/json" },
       });
       if (response.ok) {
-        console.log("success");
-        document.location.replace("profile");
+        document.location.replace("/dashboard/");
       } else {
         alert(response.statusText);
       }

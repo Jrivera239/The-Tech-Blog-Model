@@ -3,6 +3,7 @@ const sequelize = require('../config/connection');
 const { Post, User, Comment } = require('../models');
 
 // return all posts for homepage from db //
+
 router.get('/', (req, res) => {
     console.log('');
     Post.findAll({
