@@ -1,19 +1,19 @@
 const path = require('path');
 const express = require('express');
-const session = require('express-session');
 const exphbs = require('express-handlebars');
-
+const session = require('express-session');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const routes = require('./controllers');
+const sequelize = require('./config/connection');
+const helpers = require('./utils/helpers');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-const sequelize = require('./config/connection');
-const SequelizeStore = require('connect-session-sequelize')(session.Store);
-
-// cookie setup //
-
 const sess = {
-    secret: 'top secret', 
-    cookie: {},
+    secret: "top secret as CIA and FBI",
+    cookie: {
+        maxAge: 10 * 30 * 1000
+    },
     resave: false,
     saveUninitialized: true,
     store: new SequelizeStore({
@@ -22,27 +22,16 @@ const sess = {
 };
 
 app.use(session(sess));
-
-const formatDate = require('./utils/helpers');
-
-const hbs = exphbs.create({ formatDate });
-
-
-
-
-//Allows us to use handlebars and Express middleware // 
-
+const hbs = exphbs.create({ helpers });
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(routes);
 
-
-//Use all routes in controller folder //
-app.use(require('./controllers/'));
-// Start server after DB connection //
+// connection to dtabase //
 
 sequelize.sync({ force: false }).then(() => {
-  app.listen(PORT, () => console.log('Now listening'));
+    app.listen(PORT, () => console.log('Connected'));
 });
