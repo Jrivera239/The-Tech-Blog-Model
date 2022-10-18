@@ -14,23 +14,19 @@ const sess = {
     resave: false,
     saveUninitialized: true,
     store: new SequelizeStore({
-        db: sequelize
-    })
-};
+    db: sequelize
+    })};
+
+app.use(session(sess));
 
 const helpers = require('./utils/helpers');
-
 const hbs = exphbs.create({ helpers });
-
+app.use(require('./controllers/'));
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
-
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use(require('./controllers/'));
-
 sequelize.sync({ force: false }).then(() => {
     app.listen(PORT, () => console.log('Now listening'));
 });
