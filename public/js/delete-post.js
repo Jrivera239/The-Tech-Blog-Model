@@ -1,4 +1,4 @@
-async function deleteForm(event) {
+async function deleteFormHandler(event) {
     event.preventDefault();
 
     const id = window.location.toString().split('/')[
@@ -6,16 +6,13 @@ async function deleteForm(event) {
     ];
     const response = await fetch(`/api/posts/${id}`, {
         method: 'DELETE'
-    }
-    );
+    });
 
-    if (response.ok) 
-    {
+    if (response.ok) {
         document.location.replace('/dashboard/');
-    } else 
-    {
+    } else {
         alert(response.statusText);
     }
 }
 
-document.querySelector('.delete-post-btn').addEventListener('click', deleteForm);
+document.querySelector('.delete-post-btn').addEventListener('click', deleteFormHandler);

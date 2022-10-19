@@ -1,23 +1,22 @@
 const router = require('express').Router();
 const sequelize = require('../config/connection');
-const { Post, User, Comment } = require('../models');
+const { Post, User, Comment, Vote } = require('../models');
 
-// return all posts for homepage from db //
-
+// return all posts for homepage from db
 router.get('/', (req, res) => {
-    console.log('');
+    console.log('====================');
     Post.findAll({
         attributes: [
             'id', 
             'post_url',
             'title',
             'created_at',
-            [sequelize.literal()]
+            [sequelize.literal('(SELECT COUNT(*) FROM vote WHERE post.id = vote.post_id)'), 'vote_count']
         ],
         include: [
             {
                 model: Comment,
-                attributes: ['id', 'user_id', 'post_id', 'comment_text', 'created_at'],
+                attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
                 include: {
                     model: User,
                     attributes: ['username']
@@ -43,7 +42,7 @@ router.get('/', (req, res) => {
         });
 });
 
-// get single post //
+// get single post
 router.get('/post/:id', (req, res) => {
     Post.findOne({
         where: {
@@ -54,12 +53,12 @@ router.get('/post/:id', (req, res) => {
             'post_url',
             'title',
             'created_at',
-            [sequelize.literal()]
+            [sequelize.literal('(SELECT COUNT(*) FROM vote WHERE post.id = vote.post_id)'), 'vote_count']
         ], 
         include: [
             {
                 model: Comment,
-                attributes: ['id', 'user_id', 'post_id',' comment_text', 'created_at'],
+                attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
                 include: {
                     model: User,
                     attributes: ['username']
@@ -73,13 +72,13 @@ router.get('/post/:id', (req, res) => {
     })
         .then(dbPostData => {
             if (!dbPostData) {
-                res.status(404).json({ message: 'Try a dfferent ID'});
+                res.status(404).json({ message: 'No post found with this id'});
                 return;
             }
 
             const post = dbPostData.get({ plain: true });
 
-            res.render('feedback', {
+            res.render('single-post', {
                 post,
                 loggedIn: req.session.loggedIn
             });
